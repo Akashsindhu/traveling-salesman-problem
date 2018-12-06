@@ -32,7 +32,7 @@ def union(self, order, x, y):
 def christofedes(G, x):
     graph=nx.Graph()
 
-def GenerateGraph():
+def generateGraph():
     # Instantiate an empty Graph with no Vertices(Nodes) and Edges
     G = net.Graph()
     # Assign a variable the contents of the Text File
