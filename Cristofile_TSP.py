@@ -2,6 +2,16 @@ import networkx as net
 import matplotlib.pyplot as pyplot
 import sys
 
+class TravelingSalesGraph(object):
+    def _init_(self):
+        self.graph = net.Graph()
+
+    def Kruskals(self):
+        return 0
+
+    def Christofides(self):
+        return 0
+
 def getMin(G, mstFlag):
     min = big ass muthfuckin number
     for i in [(u, v, edata['distance']) for u, v, edata in G.edges( data = True) if 'distance' in edata ]:
@@ -70,3 +80,9 @@ def sketchGraph(G, color):
     net.draw_networkx_edge_labels(G,node_position,edge_labels = edge_labels)
 
     return node_position
+
+if __name__ == "__main__":
+    myTSG = TravelingSalesGraph()
+    myTSG.graph = generateGraph()
+    myTSG.Kruskals()
+    myTSG.Christofides()
