@@ -1,3 +1,5 @@
+import networkx as nx
+
 def tsp(data):
     #build a graph
     G = build_grapgh(data)
@@ -17,7 +19,7 @@ def tsp(data):
 
 
 
-def minimum_spanning_tree():
+def minimum_spanning_tree(G):
     tree = []
     subtrees = unionfind()
     for w, u, v in sorted((G[u][v], u, v) for u in G for v in G[u]):
@@ -50,10 +52,24 @@ def minimum_weight_matching(MST, G, odd_vertices):
         MST.add_edge(v, closest, length=length)
         odd_vert.remove(closest)
 
+def build_graph():
+    G = nx.Graph()
+    f = open('input.txt')
+    n = int(f.readline())
+    wtMatrix = []
+    for i in range(n):
+        list1 = map(int, (f.readline()).split())
+        wtMatrix.append(list1)
+    for i in range(n):
+        for j in range(n)[i:]:
+            if wtMatrix[i][j] > 0 :
+                G.add_edge(i, j, length = wtMatrix[i][j])
+    return G
+
 class UnionFind:
     def __init__(self):
-        self.weights = {}
-        self.parents = {}
+        self.weights = []
+        self.parents = []
 
     def __getitem__(self, object):
         if object not in self.parents:
@@ -83,19 +99,6 @@ class UnionFind:
             if r != heaviest:
                 self.weights[heaviest] += self.weights[r]
                 self.parents[r] = heaviest
-
-def build_graph(data):
-    graph = {}
-    for this in range(len(data)):
-        for another_point in range(len(data)):
-            if this != another_point:
-                if this not in graph:
-                    graph[this] = {}
-
-                graph[this][another_point] = get_length(data[this][0], data[this][1], data[another_point][0],
-                                                        data[another_point][1])
-
-    return graph
 
 def get_length(x1, y1, x2, y2):
     return ((x1 - x2) ** 2 + (y1 - y2) ** 2) ** (1 / 2)
@@ -149,5 +152,19 @@ def remove_edge_from_matchedMST(MatchedMST, v1, v2):
     return MatchedMST
 
 
+print("doin it")
 
+G = build_graph()
+print("Graph: ", G)
 
+#build a minimum spanning tree
+MSTree = minimum_spanning_tree(G)
+print("MSTree", MSTree)
+
+#find odd vertices
+odd_vertices = find_odd_vertices(MSTree)
+print("odd vertices: ", odd_vertices)
+
+#add minimum weight matching edges to MST
+minimum_weight_matching(MSTree, G, odd_vertices)
+print("minimum weight matching", MSTree)
